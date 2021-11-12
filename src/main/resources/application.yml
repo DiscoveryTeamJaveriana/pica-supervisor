@@ -1,6 +1,8 @@
 spring:
   application:
     name: pica-supervisor
+  zipkin:
+    base-url: http://zipkin-server:9411/
 server:
   port: 5001
 eureka:
