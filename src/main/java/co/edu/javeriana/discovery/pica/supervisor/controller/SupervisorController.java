@@ -76,7 +76,7 @@ public class SupervisorController {
 
     private HttpHeaders putRqUIDHeader(String rquid) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set(RQUID,rquid);
+        headers.set(XRQUID,rquid);
         return headers;
     }
 }
