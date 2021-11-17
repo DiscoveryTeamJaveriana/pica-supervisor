@@ -5,7 +5,7 @@ import co.edu.javeriana.discovery.pica.supervisor.controller.model.ReqPostSuperv
 import co.edu.javeriana.discovery.pica.supervisor.controller.model.RespGetSupervisor;
 
 public interface ISupervisorService {
-   void  postSupervisor (ReqPostSupervisor request, String rquid);
+    void postSupervisor (ReqPostSupervisor request, String rquid);
     void postAutenticacion (ReqPostAutenticacion request, String rquid);
     RespGetSupervisor getSupervisor (String codigo, String rquid);
 }

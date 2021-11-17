@@ -7,8 +7,6 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Data
 public class ReqPostSupervisor {
-  @JsonProperty("Codigo")
-  private String codigo = null;
 
   @JsonProperty("Nombre")
   private String nombre = null;
