@@ -1,5 +1,6 @@
 package co.edu.javeriana.discovery.pica.supervisor.service.impl;
 
+import co.edu.javeriana.discovery.pica.supervisor.controller.model.Error;
 import co.edu.javeriana.discovery.pica.supervisor.controller.model.ReqPostAutenticacion;
 import co.edu.javeriana.discovery.pica.supervisor.controller.model.ReqPostSupervisor;
 import co.edu.javeriana.discovery.pica.supervisor.controller.model.RespGetSupervisor;
@@ -22,15 +23,25 @@ public class SupervisorService implements ISupervisorService {
     public void postSupervisor(ReqPostSupervisor request, String rquid) {
 
         Supervisor supervisor = SupervisorMapper.mapReqPostSupervisorToSupervisor(request);
-        supervisorRepository.save(supervisor);
-
+        try {
+            supervisorRepository.save(supervisor);
+            }catch (Exception e) {
+            log.info("Error al crear supervisor");
+            throw e;
+        }
     }
 
     @Override
     public void postAutenticacion(ReqPostAutenticacion request, String rquid) {
-
-        supervisorRepository.findSupervisorByUsername(request.getUsuario());
-        //TODO:Authentication Implementation
+        try {
+            Supervisor supervisor = supervisorRepository.findSupervisorByUsername(request.getUsuario());
+            if (supervisor.getPassword().equals(request.getClave())){
+                log.info("Inicio de sesion exitoso");
+                return;
+            }else throw new RuntimeException("Clave incorrecta");
+        }catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
