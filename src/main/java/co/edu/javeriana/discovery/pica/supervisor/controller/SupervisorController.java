@@ -1,9 +1,7 @@
 package co.edu.javeriana.discovery.pica.supervisor.controller;
 
+import co.edu.javeriana.discovery.pica.supervisor.controller.model.*;
 import co.edu.javeriana.discovery.pica.supervisor.controller.model.Error;
-import co.edu.javeriana.discovery.pica.supervisor.controller.model.ReqPostAutenticacion;
-import co.edu.javeriana.discovery.pica.supervisor.controller.model.ReqPostSupervisor;
-import co.edu.javeriana.discovery.pica.supervisor.controller.model.RespGetSupervisor;
 import co.edu.javeriana.discovery.pica.supervisor.service.ISupervisorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,15 +68,17 @@ public class SupervisorController {
         SupervisorController.this.tracer.currentSpan().tag(REQUEST,json);
         SupervisorController.this.tracer.currentSpan().tag(RQUID,xRqUID);
         try {
-            supervisorService.postAutenticacion(reqPostAutenticacion, xRqUID);
+            RespPostAutenticacion response = supervisorService.postAutenticacion(reqPostAutenticacion, xRqUID);
+            String jsonResponse = mapper.writeValueAsString(response);
+            SupervisorController.this.tracer.currentSpan().tag(RESPONSE,jsonResponse);
+            SupervisorController.this.tracer.currentSpan().tag(RESPONSECODE,HttpStatus.OK.toString());
+            return new ResponseEntity<>(jsonResponse,putRqUIDHeader(xRqUID),HttpStatus.OK);
         }catch (Exception e) {
             SupervisorController.this.tracer.currentSpan().tag(RESPONSECODE,HttpStatus.PARTIAL_CONTENT.toString());
             String jsonError = mapper.writeValueAsString(buildError(ERRORAUTENTICACION,CODIGOERRORAUTENTICACION));
             SupervisorController.this.tracer.currentSpan().tag(RESPONSE,jsonError);
             return new ResponseEntity<>(jsonError,putRqUIDHeader(xRqUID),HttpStatus.PARTIAL_CONTENT);
         }
-        SupervisorController.this.tracer.currentSpan().tag(RESPONSECODE,HttpStatus.NO_CONTENT.toString());
-        return new ResponseEntity<>(putRqUIDHeader(xRqUID),HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/Supervisor/{Codigo}")
