@@ -12,5 +12,7 @@ public class RespPostAutenticacion {
   private String Id = null;
   @JsonProperty("Nombre")
   private String Nombre = null;
+  @JsonProperty("Correo")
+  private String Correo = null;
 }
 
