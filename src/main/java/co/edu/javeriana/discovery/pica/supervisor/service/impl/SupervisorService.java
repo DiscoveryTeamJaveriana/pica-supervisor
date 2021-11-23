@@ -38,6 +38,7 @@ public class SupervisorService implements ISupervisorService {
                 RespPostAutenticacion response = new RespPostAutenticacion();
                 response.setId(supervisor.getId());
                 response.setNombre(supervisor.getName());
+                response.setCorreo(supervisor.getEmail());
                 return response;
             }else throw new RuntimeException("Clave incorrecta");
         }catch (Exception e) {
